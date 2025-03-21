@@ -12,11 +12,13 @@ const passport = require("passport");
 const session = require("express-session");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const { prisma } = require("./prisma/queries");
+const path = require("path");
 
 // require all routers
 const homeRouter = require("./routes/homeRouter");
 const signUpRouter = require("./routes/signUpRouter");
 const logInRouter = require("./routes/logInRouter");
+const filesRouter = require("./routes/filesRouter");
 
 // set up app
 const app = express();
@@ -37,6 +39,7 @@ app.use(
 );
 app.use(passport.session());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   next();
@@ -49,6 +52,7 @@ app.use("/log-in", logInRouter);
 app.get("/log-out", (req, res, next) => {
   req.logout((err) => (err ? next(err) : res.redirect("/")));
 });
+app.use("/files", filesRouter);
 
 // middleware for next(error)
 app.use((err, req, res, next) => {
