@@ -1,0 +1,19 @@
+<header>
+  <h1>File Uploader</h1>
+  <nav>
+    <ul class="nav-list">
+      <% if (!currentUser) { %>
+      <li class="nav-element">
+        <a href="/sign-up" class="nav-link">Sign Up</a>
+      </li>
+      <li class="nav-element">
+        <a href="/log-in" class="nav-link">Log In</a>
+      </li>
+      <% } else { %>
+      <li class="nav-element">
+        <a href="/log-out" class="nav-link">Log Out</a>
+      </li>
+      <% } %>
+    </ul>
+  </nav>
+</header>

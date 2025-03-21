@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("partials/head") %>
+  <body>
+    <%- include("partials/header") %>
+    <h2>Welcome!<%= currentUser ? ", " + currentUser.firstName : "" %></h2>
+    <% if (!currentUser) { %>
+    <p>
+      Please sign up to continue or log in if you already have an account :D
+    </p>
+    <% } %>
+  </body>
+</html>

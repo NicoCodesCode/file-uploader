@@ -1,0 +1,5 @@
+<ul>
+  <% if (locals.errors) { errors.map((error) => { %>
+  <li class="form-error-text"><%= error.msg %></li>
+  <% }) } %>
+</ul>
