@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("partials/head") %>
+  <body>
+    <%- include("partials/header") %>
+    <h2><%= title %></h2>
+    <form method="POST">
+      <div class="form-group">
+        <label for="folder-name" class="form-label">Name:</label>
+        <input
+          type="text"
+          class="form-input"
+          name="folderName"
+          id="folder-name"
+          valule="<%= invalidInput?.folderName %>"
+          required
+        />
+      </div>
+      <%- include("partials/formErrors") %>
+      <div class="button-group">
+        <button type="submit" class="primary-button">Create</button>
+        <a href="/">
+          <button class="secondary-button" type="button">Go Back</button>
+        </a>
+      </div>
+    </form>
+  </body>
+</html>

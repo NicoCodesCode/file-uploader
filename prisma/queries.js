@@ -33,9 +33,35 @@ async function insertUser(user) {
   });
 }
 
+async function getFolderByName(name) {
+  const folder = await prisma.folder.findUnique({
+    where: {
+      name: name,
+    },
+  });
+
+  return folder;
+}
+
+async function insertFolder(folderName) {
+  await prisma.folder.create({
+    data: {
+      name: folderName,
+    },
+  });
+}
+
+async function getAllFolders() {
+  const folders = await prisma.folder.findMany();
+  return folders;
+}
+
 module.exports = {
   prisma,
   getUserByUsername,
   getUserById,
   insertUser,
+  getFolderByName,
+  insertFolder,
+  getAllFolders,
 };

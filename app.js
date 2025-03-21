@@ -19,6 +19,7 @@ const homeRouter = require("./routes/homeRouter");
 const signUpRouter = require("./routes/signUpRouter");
 const logInRouter = require("./routes/logInRouter");
 const filesRouter = require("./routes/filesRouter");
+const foldersRouter = require("./routes/foldersRouter");
 
 // set up app
 const app = express();
@@ -53,6 +54,7 @@ app.get("/log-out", (req, res, next) => {
   req.logout((err) => (err ? next(err) : res.redirect("/")));
 });
 app.use("/files", filesRouter);
+app.use("/folders", foldersRouter);
 
 // middleware for next(error)
 app.use((err, req, res, next) => {
