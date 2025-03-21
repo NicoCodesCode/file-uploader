@@ -8,4 +8,6 @@ router
   .get(foldersController.renderCreateFolderPage)
   .post(foldersController.createFolder);
 
+router.get("/:folderId", foldersController.openFolder);
+
 module.exports = router;

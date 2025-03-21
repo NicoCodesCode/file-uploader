@@ -56,6 +56,16 @@ async function getAllFolders() {
   return folders;
 }
 
+async function getFolderById(id) {
+  const folder = await prisma.folder.findUnique({
+    where: {
+      id: id,
+    },
+  });
+
+  return folder;
+}
+
 module.exports = {
   prisma,
   getUserByUsername,
@@ -64,4 +74,5 @@ module.exports = {
   getFolderByName,
   insertFolder,
   getAllFolders,
+  getFolderById,
 };

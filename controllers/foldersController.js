@@ -1,6 +1,6 @@
 const validateFolder = require("../validations/folderValidator");
 const { validationResult } = require("express-validator");
-const { insertFolder } = require("../prisma/queries");
+const { insertFolder, getFolderById } = require("../prisma/queries");
 
 const renderCreateFolderPage = (req, res) => {
   if (req.errors)
@@ -35,4 +35,9 @@ const createFolder = [
   renderCreateFolderPage,
 ];
 
-module.exports = { renderCreateFolderPage, createFolder };
+const openFolder = async (req, res) => {
+  const folder = await getFolderById(Number(req.params.folderId));
+  res.render("folder", { title: folder.name });
+};
+
+module.exports = { renderCreateFolderPage, createFolder, openFolder };
