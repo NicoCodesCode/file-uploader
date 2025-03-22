@@ -1,5 +1,9 @@
 const upload = require("../multer/upload");
-const { insertFile, getFileById } = require("../prisma/queries");
+const {
+  insertFile,
+  getFileById,
+  deleteFileById,
+} = require("../prisma/queries");
 const { format } = require("date-fns");
 
 const renderUploadFilePage = (req, res) => {
@@ -45,9 +49,19 @@ const renderDeleteFilePage = (req, res) => {
   });
 };
 
+const deleteFile = async (req, res, next) => {
+  try {
+    await deleteFileById(Number(req.params.fileId));
+    res.redirect("/");
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   renderUploadFilePage,
   uploadFile,
   viewDetails,
   renderDeleteFilePage,
+  deleteFile,
 };
