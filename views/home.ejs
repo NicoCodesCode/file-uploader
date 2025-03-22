@@ -13,6 +13,9 @@
       <a href="/folders/create" class="nav-link">Create Folder</a>
       <a href="/files/upload" class="nav-link">Upload File</a>
     </div>
+    <% if (locals.folders.length === 0 && locals.files.length === 0) { %>
+    <p>There are no files</p>
+    <% } %>
     <ul class="folders-conatiner">
       <% if (locals.folders) { folders.map((folder) => { %>
       <li>
