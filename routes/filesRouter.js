@@ -8,4 +8,6 @@ router
   .get(filesController.renderUploadFilePage)
   .post(filesController.uploadFile);
 
+router.get("/:fileId", filesController.viewDetails);
+
 module.exports = router;

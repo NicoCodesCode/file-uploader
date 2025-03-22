@@ -1,5 +1,5 @@
 const upload = require("../multer/upload");
-const { insertFile } = require("../prisma/queries");
+const { insertFile, getFileById } = require("../prisma/queries");
 
 const renderUploadFilePage = (req, res) => {
   res.render("uploadFileForm", {
@@ -26,4 +26,13 @@ const uploadFile = [
   renderUploadFilePage,
 ];
 
-module.exports = { renderUploadFilePage, uploadFile };
+const viewDetails = async (req, res, next) => {
+  try {
+    const file = await getFileById(Number(req.params.fileId));
+    res.render("fileDetails", { title: "File Details", file });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { renderUploadFilePage, uploadFile, viewDetails };
