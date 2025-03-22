@@ -38,8 +38,12 @@ async function insertFile(fileName, fileSize, folderId, userId) {
     data: {
       name: fileName,
       size: fileSize,
-      folderId: folderId,
-      userId: userId,
+      Folder: {
+        connect: { id: folderId },
+      },
+      User: {
+        connect: { id: userId },
+      },
     },
   });
 }
@@ -97,7 +101,9 @@ async function insertFolder(folderName, userId) {
   await prisma.folder.create({
     data: {
       name: folderName,
-      userId: userId,
+      User: {
+        connect: { id: userId },
+      },
     },
   });
 }
