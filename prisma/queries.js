@@ -132,6 +132,14 @@ async function deleteFolderById(id) {
   });
 }
 
+async function deleteAllFilesInFolder(folderId) {
+  await prisma.file.deleteMany({
+    where: {
+      folderId: folderId,
+    },
+  });
+}
+
 module.exports = {
   prisma,
   getUserByUsername,
@@ -148,4 +156,5 @@ module.exports = {
   getFolderById,
   updateFolder,
   deleteFolderById,
+  deleteAllFilesInFolder,
 };

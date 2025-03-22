@@ -6,6 +6,7 @@ const {
   updateFolder,
   deleteFolderById,
   getFilesInsideFolder,
+  deleteAllFilesInFolder,
 } = require("../prisma/queries");
 
 const renderCreateFolderPage = (req, res) => {
@@ -94,6 +95,7 @@ const renderDeleteFolderPage = (req, res) => {
 
 const deleteFolder = async (req, res, next) => {
   try {
+    await deleteAllFilesInFolder(Number(req.params.folderId));
     await deleteFolderById(Number(req.params.folderId));
     res.redirect("/");
   } catch (error) {
