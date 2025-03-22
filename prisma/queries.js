@@ -93,10 +93,11 @@ async function getFolderByName(name) {
   return folder;
 }
 
-async function insertFolder(folderName) {
+async function insertFolder(folderName, userId) {
   await prisma.folder.create({
     data: {
       name: folderName,
+      userId: userId,
     },
   });
 }

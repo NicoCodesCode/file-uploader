@@ -32,7 +32,7 @@ const createFolder = [
     const folderName = req.body.folderName;
 
     try {
-      await insertFolder(folderName);
+      await insertFolder(folderName, res.locals.currentUser.id);
       res.redirect("/");
     } catch (error) {
       next(error);
