@@ -44,7 +44,10 @@ const createFolder = [
 const openFolder = async (req, res, next) => {
   try {
     const folder = await getFolderById(Number(req.params.folderId));
-    const files = await getFilesInsideFolder(folder.id);
+    const files = await getFilesInsideFolder(
+      folder.id,
+      res.locals.currentUser.id
+    );
     res.render("folder", { title: folder.name, folderId: folder.id, files });
   } catch (error) {
     next(error);

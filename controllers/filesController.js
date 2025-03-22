@@ -28,7 +28,8 @@ const uploadFile = [
       await insertFile(
         req.file.filename,
         req.file.size,
-        req.params.folderId ? Number(req.params.folderId) : null
+        req.params.folderId ? Number(req.params.folderId) : null,
+        res.locals.currentUser.id
       );
       res.redirect(
         req.params.folderId ? `/folders/${req.params.folderId}` : "/"

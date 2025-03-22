@@ -15,11 +15,13 @@ model Session {
 }
 
 model User {
-  id        Int    @id @default(autoincrement())
-  firstName String @db.VarChar(20)
-  lastName  String @db.VarChar(20)
-  username  String @unique
+  id        Int      @id @default(autoincrement())
+  firstName String   @db.VarChar(20)
+  lastName  String   @db.VarChar(20)
+  username  String   @unique
   password  String
+  File      File[]
+  Folder    Folder[]
 }
 
 model File {
@@ -29,10 +31,14 @@ model File {
   uploadedAt DateTime @default(now())
   Folder     Folder?  @relation(fields: [folderId], references: [id])
   folderId   Int?
+  User       User     @relation(fields: [userId], references: [id])
+  userId     Int
 }
 
 model Folder {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  Files File[]
+  id     Int    @id @default(autoincrement())
+  name   String @unique
+  Files  File[]
+  User   User   @relation(fields: [userId], references: [id])
+  userId Int
 }
