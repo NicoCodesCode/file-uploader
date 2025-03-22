@@ -1,13 +1,10 @@
 const upload = require("../multer/upload");
 
 const renderUploadFilePage = (req, res) => {
-  if (req.errors)
-    return res.render("uploadFileForm", {
-      title: "Upload a File",
-      errors: req.errors,
-    });
-
-  res.render("uploadFileForm", { title: "Upload a File" });
+  res.render("uploadFileForm", {
+    title: "Upload a File",
+    errors: req.errors ? req.errors : [],
+  });
 };
 
 const uploadFile = [

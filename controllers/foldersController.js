@@ -7,20 +7,12 @@ const {
 } = require("../prisma/queries");
 
 const renderCreateFolderPage = (req, res) => {
-  if (req.errors)
-    return res.render("folderConfigForm", {
-      title: "Create Folder",
-      action: "Create",
-      folderId: req.params.folderId,
-      errors: req.errors,
-      invalidInput: req.body,
-    });
-
   res.render("folderConfigForm", {
     title: "Create Folder",
     action: "Create",
     folderId: req.params.folderId,
-    invalidInput: {},
+    errors: req.errors ? req.errors : [],
+    invalidInput: req.errors ? req.body : {},
   });
 };
 
@@ -52,20 +44,12 @@ const openFolder = async (req, res) => {
 };
 
 const renderEditFolderPage = (req, res) => {
-  if (req.errors)
-    return res.render("folderConfigForm", {
-      title: "Edit Folder",
-      action: "Edit",
-      folderId: req.params.folderId,
-      errors: req.errors,
-      invalidInput: req.body,
-    });
-
   res.render("folderConfigForm", {
     title: "Edit Folder",
     action: "Edit",
     folderId: req.params.folderId,
-    invalidInput: {},
+    errors: req.errors ? req.errors : [],
+    invalidInput: req.errors ? req.body : {},
   });
 };
 

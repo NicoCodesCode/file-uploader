@@ -4,14 +4,11 @@ const bcrypt = require("bcryptjs");
 const { insertUser } = require("../prisma/queries");
 
 const renderSignUpPage = (req, res) => {
-  if (req.errors)
-    return res.render("signUpForm", {
-      title: "Sign Up",
-      errors: req.errors,
-      invalidInput: req.body,
-    });
-
-  res.render("signUpForm", { title: "Sign Up", invalidInput: {} });
+  res.render("signUpForm", {
+    title: "Sign Up",
+    errors: req.errors ? req.errors : [],
+    invalidInput: req.errors ? req.body : {},
+  });
 };
 
 const signUpUser = [
