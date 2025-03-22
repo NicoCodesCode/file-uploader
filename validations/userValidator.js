@@ -28,7 +28,9 @@ const validateUser = [
     .withMessage(`${emptyErr} username`)
     .isLength({ min: 1, max: 20 })
     .withMessage(`Username ${lengthErr}`)
-    .custom(async (username) => await getUserByUsername(username))
+    .custom(async (username) =>
+      (await getUserByUsername(username)) ? Promise.reject() : true
+    )
     .withMessage("There is already a user with that username"),
   body("password")
     .trim()
