@@ -1,4 +1,5 @@
 const upload = require("../multer/upload");
+const { insertFile } = require("../prisma/queries");
 
 const renderUploadFilePage = (req, res) => {
   res.render("uploadFileForm", {
@@ -9,13 +10,18 @@ const renderUploadFilePage = (req, res) => {
 
 const uploadFile = [
   upload.single("file"),
-  (req, res) => {
+  async (req, res, next) => {
     if (!req.file) {
       req.errors = [{ msg: "Could not upload the file" }];
       return next();
     }
 
-    res.redirect("/");
+    try {
+      await insertFile(req.file.filename, res.locals.currentUser.id);
+      res.redirect("/");
+    } catch (error) {
+      next(error);
+    }
   },
   renderUploadFilePage,
 ];

@@ -33,6 +33,20 @@ async function insertUser(user) {
   });
 }
 
+async function insertFile(fileName, userId) {
+  await prisma.file.create({
+    data: {
+      name: fileName,
+      userId: userId,
+    },
+  });
+}
+
+async function getAllFiles() {
+  const files = await prisma.file.findMany();
+  return files;
+}
+
 async function getFolderByName(name) {
   const folder = await prisma.folder.findUnique({
     where: {
@@ -90,6 +104,8 @@ module.exports = {
   getUserByUsername,
   getUserById,
   insertUser,
+  insertFile,
+  getAllFiles,
   getFolderByName,
   insertFolder,
   getAllFolders,
