@@ -13,10 +13,14 @@
       <a href="/folders/create" class="nav-link">Create Folder</a>
       <a href="/files/upload" class="nav-link">Upload File</a>
     </div>
-    <div class="files-conatiner">
+    <ul class="files-conatiner">
       <% if (locals.folders) { folders.map((folder) => { %>
-      <a href="/folders/<%= folder.id %>"><%= folder.name %></a> <% }) } %>
-    </div>
+      <li>
+        <a href="/folders/<%= folder.id %>"><%= folder.name %></a>
+        <a href="/folders/<%= folder.id %>/edit"><button>Edit</button></a>
+      </li>
+      <% }) } %>
+    </ul>
     <% } %>
   </body>
 </html>

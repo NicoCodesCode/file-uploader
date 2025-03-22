@@ -66,6 +66,17 @@ async function getFolderById(id) {
   return folder;
 }
 
+async function updateFolder(id, name) {
+  await prisma.folder.update({
+    where: {
+      id: id,
+    },
+    data: {
+      name: name,
+    },
+  });
+}
+
 module.exports = {
   prisma,
   getUserByUsername,
@@ -75,4 +86,5 @@ module.exports = {
   insertFolder,
   getAllFolders,
   getFolderById,
+  updateFolder,
 };

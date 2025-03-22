@@ -1,16 +1,25 @@
 const validateFolder = require("../validations/folderValidator");
 const { validationResult } = require("express-validator");
-const { insertFolder, getFolderById } = require("../prisma/queries");
+const {
+  insertFolder,
+  getFolderById,
+  updateFolder,
+} = require("../prisma/queries");
 
 const renderCreateFolderPage = (req, res) => {
   if (req.errors)
-    return res.render("createFolderForm", {
+    return res.render("folderConfigForm", {
       title: "Create Folder",
+      action: "Create",
       errors: req.errors,
       invalidInput: req.body,
     });
 
-  res.render("createFolderForm", { title: "Create Folder", invalidInput: {} });
+  res.render("folderConfigForm", {
+    title: "Create Folder",
+    action: "Create",
+    invalidInput: {},
+  });
 };
 
 const createFolder = [
@@ -40,4 +49,49 @@ const openFolder = async (req, res) => {
   res.render("folder", { title: folder.name });
 };
 
-module.exports = { renderCreateFolderPage, createFolder, openFolder };
+const renderEditFolderPage = (req, res) => {
+  if (req.errors)
+    return res.render("folderConfigForm", {
+      title: "Edit Folder",
+      action: "Edit",
+      errors: req.errors,
+      invalidInput: req.body,
+    });
+
+  res.render("folderConfigForm", {
+    title: "Edit Folder",
+    action: "Edit",
+    invalidInput: {},
+  });
+};
+
+const editFolder = [
+  validateFolder,
+  async (req, res, next) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      req.errors = errors.array();
+      return next();
+    }
+
+    const folderId = Number(req.params.folderId);
+    const folderName = req.body.folderName;
+
+    try {
+      await updateFolder(folderId, folderName);
+      res.redirect("/");
+    } catch (error) {
+      next(error);
+    }
+  },
+  renderEditFolderPage,
+];
+
+module.exports = {
+  renderCreateFolderPage,
+  createFolder,
+  openFolder,
+  renderEditFolderPage,
+  editFolder,
+};

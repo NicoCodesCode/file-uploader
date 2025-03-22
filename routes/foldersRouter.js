@@ -8,6 +8,11 @@ router
   .get(foldersController.renderCreateFolderPage)
   .post(foldersController.createFolder);
 
+router
+  .route("/:folderId/edit")
+  .get(foldersController.renderEditFolderPage)
+  .post(foldersController.editFolder);
+
 router.get("/:folderId", foldersController.openFolder);
 
 module.exports = router;
