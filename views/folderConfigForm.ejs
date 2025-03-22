@@ -4,10 +4,7 @@
   <body>
     <%- include("partials/header") %>
     <h2><%= title %></h2>
-    <form
-      method="POST"
-      action="<%= action === 'Edit' ? `/folders/${folderId}/edit?_method=PUT` : `/folders/create` %>"
-    >
+    <form method="POST" action="<%= actionPath %>">
       <div class="form-group">
         <label for="folder-name" class="form-label">Name:</label>
         <input

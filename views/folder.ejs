@@ -5,19 +5,36 @@
     <%- include("partials/header") %>
     <h2><%= title %></h2>
     <div class="options-container">
+      <a href="/folders/<%= folderId %>/create" class="nav-link">
+        Create Folder
+      </a>
       <a href="/folders/<%= folderId %>/upload" class="nav-link">
         Upload File
       </a>
     </div>
+    <% if (locals.subfolders.length === 0 && locals.files.length === 0) { %>
+    <p>This folder is empty</p>
+    <% } %>
+    <ul class="subfolder-conatiner">
+      <% if (locals.subfolders) { subfolders.map((subfolder) => { %>
+      <li>
+        <a href="/folders/<%= subfolder.id %>"><%= subfolder.name %></a>
+        <a href="/folders/<%= subfolder.id %>/edit">
+          <button>Edit</button>
+        </a>
+        <a href="/folders/<%= subfolder.id %>/delete">
+          <button>Delete</button>
+        </a>
+      </li>
+      <% })} %>
+    </ul>
     <ul class="files-container">
       <% if (locals.files.length > 0) { files.map((file) => { %>
       <li>
         <a href="/files/<%= file.id %>"><%= file.name %></a>
         <a href="/files/<%= file.id %>/delete"><button>Delete</button></a>
       </li>
-      <% }) } else { %>
-      <p>This folder is empty</p>
-      <% } %>
+      <% }) } %>
     </ul>
   </body>
 </html>

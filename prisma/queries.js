@@ -97,7 +97,7 @@ async function getFolderByName(name) {
   return folder;
 }
 
-async function insertFolder(folderName, userId) {
+async function insertRootFolder(folderName, userId) {
   await prisma.folder.create({
     data: {
       name: folderName,
@@ -108,9 +108,34 @@ async function insertFolder(folderName, userId) {
   });
 }
 
-async function getAllFolders(userId) {
+async function insertSubfolder(folderName, parentFolderId, userId) {
+  await prisma.folder.create({
+    data: {
+      name: folderName,
+      User: {
+        connect: { id: userId },
+      },
+      parent: {
+        connect: { id: parentFolderId },
+      },
+    },
+  });
+}
+
+async function getAllRootFolders(userId) {
   const folders = await prisma.folder.findMany({
     where: {
+      parentId: null,
+      userId: userId,
+    },
+  });
+  return folders;
+}
+
+async function getAllSubfolders(parentFolderId, userId) {
+  const folders = await prisma.folder.findMany({
+    where: {
+      parentId: parentFolderId,
       userId: userId,
     },
   });
@@ -154,6 +179,25 @@ async function deleteAllFilesInFolder(folderId) {
   });
 }
 
+async function deleteAllSubfolders(parentFolderId) {
+  const subfolders = await prisma.folder.findMany({
+    where: {
+      parentId: parentFolderId,
+    },
+  });
+
+  for (const subfolder of subfolders) {
+    await deleteAllFilesInFolder(subfolder.id);
+    await deleteAllSubfolders(subfolder.id);
+  }
+
+  await prisma.folder.deleteMany({
+    where: {
+      parentId: parentFolderId,
+    },
+  });
+}
+
 module.exports = {
   prisma,
   getUserByUsername,
@@ -165,10 +209,13 @@ module.exports = {
   getFileById,
   deleteFileById,
   getFolderByName,
-  insertFolder,
-  getAllFolders,
+  insertRootFolder,
+  insertSubfolder,
+  getAllRootFolders,
+  getAllSubfolders,
   getFolderById,
   updateFolder,
   deleteFolderById,
   deleteAllFilesInFolder,
+  deleteAllSubfolders,
 };

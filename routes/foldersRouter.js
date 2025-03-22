@@ -10,6 +10,11 @@ router
   .post(foldersController.createFolder);
 
 router
+  .route("/:folderId/create")
+  .get(foldersController.renderCreateFolderPage)
+  .post(foldersController.createFolder);
+
+router
   .route("/:folderId/upload")
   .get(filesController.renderUploadFilePage)
   .post(filesController.uploadFile);

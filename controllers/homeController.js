@@ -1,10 +1,13 @@
-const { getAllFolders, getFilesOutsideFolders } = require("../prisma/queries");
+const {
+  getAllRootFolders,
+  getFilesOutsideFolders,
+} = require("../prisma/queries");
 
 const renderHomePage = async (req, res, next) => {
   try {
     if (res.locals.currentUser) {
       const userId = res.locals.currentUser.id;
-      const folders = await getAllFolders(userId);
+      const folders = await getAllRootFolders(userId);
       const files = await getFilesOutsideFolders(userId);
       return res.render("home", { title: "File Uploader", folders, files });
     }

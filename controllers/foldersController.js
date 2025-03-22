@@ -1,19 +1,24 @@
 const validateFolder = require("../validations/folderValidator");
 const { validationResult } = require("express-validator");
 const {
-  insertFolder,
+  insertRootFolder,
+  insertSubfolder,
   getFolderById,
+  getAllSubfolders,
   updateFolder,
   deleteFolderById,
   getFilesInsideFolder,
   deleteAllFilesInFolder,
+  deleteAllSubfolders,
 } = require("../prisma/queries");
 
 const renderCreateFolderPage = (req, res) => {
   res.render("folderConfigForm", {
     title: "Create Folder",
     action: "Create",
-    folderId: req.params.folderId,
+    actionPath: req.params.folderId
+      ? `/folders/${req.params.folderId}/create`
+      : "/folders/create",
     errors: req.errors ? req.errors : [],
     invalidInput: req.errors ? req.body : {},
   });
@@ -30,9 +35,16 @@ const createFolder = [
     }
 
     const folderName = req.body.folderName;
+    const userId = res.locals.currentUser.id;
+    const parentFolderId = Number(req.params.folderId);
 
     try {
-      await insertFolder(folderName, res.locals.currentUser.id);
+      if (parentFolderId) {
+        await insertSubfolder(folderName, parentFolderId, userId);
+        return res.redirect(`/folders/${parentFolderId}`);
+      }
+
+      await insertRootFolder(folderName, userId);
       res.redirect("/");
     } catch (error) {
       next(error);
@@ -43,12 +55,18 @@ const createFolder = [
 
 const openFolder = async (req, res, next) => {
   try {
+    const userId = res.locals.currentUser.id;
+
     const folder = await getFolderById(Number(req.params.folderId));
-    const files = await getFilesInsideFolder(
-      folder.id,
-      res.locals.currentUser.id
-    );
-    res.render("folder", { title: folder.name, folderId: folder.id, files });
+    const subfolders = await getAllSubfolders(folder.id, userId);
+    const files = await getFilesInsideFolder(folder.id, userId);
+
+    res.render("folder", {
+      title: folder.name,
+      folderId: folder.id,
+      subfolders,
+      files,
+    });
   } catch (error) {
     next(error);
   }
@@ -58,6 +76,7 @@ const renderEditFolderPage = (req, res) => {
   res.render("folderConfigForm", {
     title: "Edit Folder",
     action: "Edit",
+    actionPath: `/folders/${req.params.folderId}/edit?_method=PUT`,
     folderId: req.params.folderId,
     errors: req.errors ? req.errors : [],
     invalidInput: req.errors ? req.body : {},
@@ -101,6 +120,7 @@ const deleteFolder = async (req, res, next) => {
 
   try {
     await deleteAllFilesInFolder(folderId);
+    await deleteAllSubfolders(folderId);
     await deleteFolderById(folderId);
     res.redirect("/");
   } catch (error) {
