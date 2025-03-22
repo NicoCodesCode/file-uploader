@@ -5,6 +5,7 @@ const {
   getFolderById,
   updateFolder,
   deleteFolderById,
+  getFilesInsideFolder,
 } = require("../prisma/queries");
 
 const renderCreateFolderPage = (req, res) => {
@@ -39,9 +40,14 @@ const createFolder = [
   renderCreateFolderPage,
 ];
 
-const openFolder = async (req, res) => {
-  const folder = await getFolderById(Number(req.params.folderId));
-  res.render("folder", { title: folder.name });
+const openFolder = async (req, res, next) => {
+  try {
+    const folder = await getFolderById(Number(req.params.folderId));
+    const files = await getFilesInsideFolder(folder.id);
+    res.render("folder", { title: folder.name, folderId: folder.id, files });
+  } catch (error) {
+    next(error);
+  }
 };
 
 const renderEditFolderPage = (req, res) => {

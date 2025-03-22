@@ -33,17 +33,32 @@ async function insertUser(user) {
   });
 }
 
-async function insertFile(fileName, fileSize) {
+async function insertFile(fileName, fileSize, folderId) {
   await prisma.file.create({
     data: {
       name: fileName,
       size: fileSize,
+      folderId: folderId,
     },
   });
 }
 
-async function getAllFiles() {
-  const files = await prisma.file.findMany();
+async function getFilesOutsideFolders() {
+  const files = await prisma.file.findMany({
+    where: {
+      folderId: null,
+    },
+  });
+  return files;
+}
+
+async function getFilesInsideFolder(id) {
+  const files = await prisma.file.findMany({
+    where: {
+      folderId: id,
+    },
+  });
+
   return files;
 }
 
@@ -123,7 +138,8 @@ module.exports = {
   getUserById,
   insertUser,
   insertFile,
-  getAllFiles,
+  getFilesOutsideFolders,
+  getFilesInsideFolder,
   getFileById,
   deleteFileById,
   getFolderByName,

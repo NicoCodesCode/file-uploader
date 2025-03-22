@@ -9,6 +9,9 @@ const { format } = require("date-fns");
 const renderUploadFilePage = (req, res) => {
   res.render("uploadFileForm", {
     title: "Upload a File",
+    actionPath: req.params.folderId
+      ? `/folders/${req.params.folderId}/upload`
+      : `/files/upload`,
     errors: req.errors ? req.errors : [],
   });
 };
@@ -22,8 +25,14 @@ const uploadFile = [
     }
 
     try {
-      await insertFile(req.file.filename, req.file.size);
-      res.redirect("/");
+      await insertFile(
+        req.file.filename,
+        req.file.size,
+        req.params.folderId ? Number(req.params.folderId) : null
+      );
+      res.redirect(
+        req.params.folderId ? `/folders/${req.params.folderId}` : "/"
+      );
     } catch (error) {
       next(error);
     }
