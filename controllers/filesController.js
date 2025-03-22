@@ -36,4 +36,18 @@ const viewDetails = async (req, res, next) => {
   }
 };
 
-module.exports = { renderUploadFilePage, uploadFile, viewDetails };
+const renderDeleteFilePage = (req, res) => {
+  res.render("delete", {
+    title: "Delete File",
+    fileId: req.params.fileId,
+    actionPath: `/files/${req.params.fileId}`,
+    alertMessage: "file",
+  });
+};
+
+module.exports = {
+  renderUploadFilePage,
+  uploadFile,
+  viewDetails,
+  renderDeleteFilePage,
+};

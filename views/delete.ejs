@@ -4,10 +4,10 @@
   <body>
     <%- include("partials/header") %>
     <h2><%= title %></h2>
-    <form method="POST" action="/folders/<%= folderId %>/delete?_method=DELETE">
+    <form method="POST" action="<%= actionPath %>/delete?_method=DELETE">
       <div class="form-group">
         <label for="delete-folder" class="form-label">
-          Are you sure you want to delete this folder and its files?
+          Are you sure you want to delete this <%= alertMessage %>?
         </label>
       </div>
       <button type="submit" class="danger-button">Yessir</button>

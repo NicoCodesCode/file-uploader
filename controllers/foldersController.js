@@ -78,9 +78,11 @@ const editFolder = [
 ];
 
 const renderDeleteFolderPage = (req, res) => {
-  res.render("deleteFolder", {
+  res.render("delete", {
     title: "Delete Folder",
     folderId: req.params.folderId,
+    actionPath: `/folders/${req.params.folderId}`,
+    alertMessage: "folder and its files",
   });
 };
 

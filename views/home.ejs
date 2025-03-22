@@ -25,6 +25,7 @@
       <% }) } %> <% if (locals.files) { files.map((file) => { %>
       <li>
         <a href="/files/<%= file.id %>"><%= file.name %></a>
+        <a href="/files/<%= file.id %>/delete"><button>Delete</button></a>
       </li>
       <% }) } %>
     </ul>
