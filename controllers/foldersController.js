@@ -94,9 +94,11 @@ const renderDeleteFolderPage = (req, res) => {
 };
 
 const deleteFolder = async (req, res, next) => {
+  const folderId = Number(req.params.folderId);
+
   try {
-    await deleteAllFilesInFolder(Number(req.params.folderId));
-    await deleteFolderById(Number(req.params.folderId));
+    await deleteAllFilesInFolder(folderId);
+    await deleteFolderById(folderId);
     res.redirect("/");
   } catch (error) {
     next(error);
