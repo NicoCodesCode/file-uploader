@@ -4,6 +4,7 @@ const {
   insertFolder,
   getFolderById,
   updateFolder,
+  deleteFolderById,
 } = require("../prisma/queries");
 
 const renderCreateFolderPage = (req, res) => {
@@ -76,10 +77,24 @@ const editFolder = [
   renderEditFolderPage,
 ];
 
+const renderDeleteFolderPage = (req, res) => {
+  res.render("deleteFolder", {
+    title: "Delete Folder",
+    folderId: req.params.folderId,
+  });
+};
+
+const deleteFolder = async (req, res) => {
+  await deleteFolderById(Number(req.params.folderId));
+  res.redirect("/");
+};
+
 module.exports = {
   renderCreateFolderPage,
   createFolder,
   openFolder,
   renderEditFolderPage,
   editFolder,
+  renderDeleteFolderPage,
+  deleteFolder,
 };
