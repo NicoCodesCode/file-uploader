@@ -33,11 +33,11 @@ async function insertUser(user) {
   });
 }
 
-async function insertFile(fileName, userId) {
+async function insertFile(fileName, fileSize) {
   await prisma.file.create({
     data: {
       name: fileName,
-      userId: userId,
+      size: fileSize,
     },
   });
 }

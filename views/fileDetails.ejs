@@ -6,6 +6,8 @@
     <h2><%= title %></h2>
     <div class="file-details">
       <h3><%= file.name %></h3>
+      <p><%= file.size %> bytes</p>
+      <p>Uploaded at <%= format(file.uploadedAt, "yyyy-MM-dd") %></p>
     </div>
   </body>
 </html>

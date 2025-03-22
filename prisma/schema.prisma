@@ -20,16 +20,15 @@ model User {
   lastName  String @db.VarChar(20)
   username  String @unique
   password  String
-  files     File[]
 }
 
 model File {
-  id       Int     @id @default(autoincrement())
-  name     String
-  creator  User    @relation(fields: [userId], references: [id])
-  userId   Int
-  Folder   Folder? @relation(fields: [folderId], references: [id])
-  folderId Int?
+  id         Int      @id @default(autoincrement())
+  name       String
+  size       Float
+  uploadedAt DateTime @default(now())
+  Folder     Folder?  @relation(fields: [folderId], references: [id])
+  folderId   Int?
 }
 
 model Folder {
