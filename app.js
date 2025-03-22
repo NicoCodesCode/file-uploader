@@ -13,6 +13,7 @@ const session = require("express-session");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const { prisma } = require("./prisma/queries");
 const path = require("path");
+const methodOverride = require("method-override");
 
 // require all routers
 const homeRouter = require("./routes/homeRouter");
@@ -45,6 +46,7 @@ app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   next();
 });
+app.use(methodOverride("_method"));
 
 // use routers
 app.use("/", homeRouter);

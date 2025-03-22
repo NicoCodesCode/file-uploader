@@ -11,6 +11,7 @@ const renderCreateFolderPage = (req, res) => {
     return res.render("folderConfigForm", {
       title: "Create Folder",
       action: "Create",
+      folderId: req.params.folderId,
       errors: req.errors,
       invalidInput: req.body,
     });
@@ -18,6 +19,7 @@ const renderCreateFolderPage = (req, res) => {
   res.render("folderConfigForm", {
     title: "Create Folder",
     action: "Create",
+    folderId: req.params.folderId,
     invalidInput: {},
   });
 };
@@ -54,6 +56,7 @@ const renderEditFolderPage = (req, res) => {
     return res.render("folderConfigForm", {
       title: "Edit Folder",
       action: "Edit",
+      folderId: req.params.folderId,
       errors: req.errors,
       invalidInput: req.body,
     });
@@ -61,6 +64,7 @@ const renderEditFolderPage = (req, res) => {
   res.render("folderConfigForm", {
     title: "Edit Folder",
     action: "Edit",
+    folderId: req.params.folderId,
     invalidInput: {},
   });
 };

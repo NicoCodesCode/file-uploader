@@ -11,7 +11,7 @@ router
 router
   .route("/:folderId/edit")
   .get(foldersController.renderEditFolderPage)
-  .post(foldersController.editFolder);
+  .put(foldersController.editFolder);
 
 router.get("/:folderId", foldersController.openFolder);
 
