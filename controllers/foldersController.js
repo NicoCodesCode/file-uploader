@@ -56,8 +56,27 @@ const createFolder = [
 const openFolder = async (req, res, next) => {
   try {
     const userId = res.locals.currentUser.id;
+    const folderId = Number(req.params.folderId);
+    const folder = await getFolderById(folderId);
 
-    const folder = await getFolderById(Number(req.params.folderId));
+    if (!req.session.folderHistory) {
+      req.session.folderHistory = [];
+    }
+
+    const existingIndex = req.session.folderHistory.indexOf(folderId);
+
+    if (existingIndex !== -1) {
+      req.session.folderHistory = req.session.folderHistory.slice(
+        0,
+        existingIndex + 1
+      );
+    } else {
+      req.session.folderHistory.push(folderId);
+      if (req.session.folderHistory.length > 20) {
+        req.session.folderHistory.shift();
+      }
+    }
+
     const subfolders = await getAllSubfolders(folder.id, userId);
     const files = await getFilesInsideFolder(folder.id, userId);
 
@@ -66,6 +85,10 @@ const openFolder = async (req, res, next) => {
       folderId: folder.id,
       subfolders,
       files,
+      previousFolderId:
+        req.session.folderHistory.length > 1
+          ? req.session.folderHistory[req.session.folderHistory.length - 2]
+          : null,
     });
   } catch (error) {
     next(error);

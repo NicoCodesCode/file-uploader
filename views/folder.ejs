@@ -36,5 +36,8 @@
       </li>
       <% }) } %>
     </ul>
+    <a href="<%= previousFolderId ? `/folders/${previousFolderId}` : '/' %>">
+      <button class="secondary-button">Go Back</button>
+    </a>
   </body>
 </html>

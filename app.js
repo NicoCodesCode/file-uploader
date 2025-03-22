@@ -37,6 +37,9 @@ app.use(
       dbRecordIdIsSessionId: true,
       dbRecordIdFunction: undefined,
     }),
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+    },
   })
 );
 app.use(passport.session());
