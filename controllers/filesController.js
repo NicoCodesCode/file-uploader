@@ -29,12 +29,14 @@ const uploadFile = [
     try {
       const fileBuffer = req.file.buffer;
       const uniqueName = `${Date.now()}_${req.file.originalname}`;
+      const filePath = `uploads/${uniqueName}`;
 
       const { data, error } = await supabase.storage
-        .from("file-uploader-bucker")
+        .from("file-uploader-bucket")
         .upload(filePath, fileBuffer, {
           cacheControl: "3600",
           upsert: false,
+          contentType: req.file.mimetype,
         });
 
       if (error) {
@@ -93,7 +95,19 @@ const renderDeleteFilePage = (req, res) => {
 
 const deleteFile = async (req, res, next) => {
   try {
-    await deleteFileById(Number(req.params.fileId));
+    const fileId = Number(req.params.fileId);
+    const { name: fileName } = await getFileById(fileId);
+
+    const { data, error } = await supabase.storage
+      .from("file-uploader-bucket")
+      .remove([`uploads/${fileName}`]);
+
+    if (error) {
+      console.error(error);
+      throw new Error("Could not upload the file");
+    }
+
+    await deleteFileById(fileId);
     res.redirect("/");
   } catch (error) {
     next(error);
