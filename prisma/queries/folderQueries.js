@@ -1,4 +1,5 @@
 const prisma = require("../prisma");
+const { deleteAllFilesInFolder } = require("./fileQueries");
 
 async function insertRootFolder(folderName, userId) {
   await prisma.folder.create({
