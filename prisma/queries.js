@@ -33,7 +33,26 @@ async function insertUser(user) {
   });
 }
 
-async function insertFile(fileName, fileSize, folderId, userId) {
+async function insertFileInRoot(fileName, fileSize, userId, fileUrl) {
+  await prisma.file.create({
+    data: {
+      name: fileName,
+      size: fileSize,
+      User: {
+        connect: { id: userId },
+      },
+      url: fileUrl,
+    },
+  });
+}
+
+async function insertFileInFolder(
+  fileName,
+  fileSize,
+  folderId,
+  userId,
+  fileUrl
+) {
   await prisma.file.create({
     data: {
       name: fileName,
@@ -44,6 +63,7 @@ async function insertFile(fileName, fileSize, folderId, userId) {
       User: {
         connect: { id: userId },
       },
+      url: fileUrl,
     },
   });
 }
@@ -203,7 +223,8 @@ module.exports = {
   getUserByUsername,
   getUserById,
   insertUser,
-  insertFile,
+  insertFileInRoot,
+  insertFileInFolder,
   getFilesOutsideFolders,
   getFilesInsideFolder,
   getFileById,

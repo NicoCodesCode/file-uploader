@@ -1,10 +1,12 @@
-const upload = require("../multer/upload");
+const upload = require("../storage/upload");
 const {
-  insertFile,
+  insertFileInFolder,
+  insertFileInRoot,
   getFileById,
   deleteFileById,
 } = require("../prisma/queries");
 const { format } = require("date-fns");
+const supabase = require("../storage/supabase");
 
 const renderUploadFilePage = (req, res) => {
   res.render("uploadFileForm", {
@@ -25,15 +27,45 @@ const uploadFile = [
     }
 
     try {
-      await insertFile(
-        req.file.filename,
+      const fileBuffer = req.file.buffer;
+      const uniqueName = `${Date.now()}_${req.file.originalname}`;
+
+      const { data, error } = await supabase.storage
+        .from("file-uploader-bucker")
+        .upload(filePath, fileBuffer, {
+          cacheControl: "3600",
+          upsert: false,
+        });
+
+      if (error) {
+        console.error(error);
+        throw new Error("Could not upload the file");
+      }
+
+      const { publicUrl } = supabase.storage
+        .from("uploads")
+        .getPublicUrl(filePath).data;
+
+      if (req.params.folderId) {
+        await insertFileInFolder(
+          uniqueName,
+          req.file.size,
+          req.params.folderId ? Number(req.params.folderId) : undefined,
+          res.locals.currentUser.id,
+          publicUrl
+        );
+
+        return res.redirect(`/folders/${req.params.folderId}`);
+      }
+
+      await insertFileInRoot(
+        uniqueName,
         req.file.size,
-        req.params.folderId ? Number(req.params.folderId) : null,
-        res.locals.currentUser.id
+        res.locals.currentUser.id,
+        publicUrl
       );
-      res.redirect(
-        req.params.folderId ? `/folders/${req.params.folderId}` : "/"
-      );
+
+      res.redirect("/");
     } catch (error) {
       next(error);
     }

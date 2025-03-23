@@ -33,6 +33,7 @@ model File {
   folderId   Int?
   User       User     @relation(fields: [userId], references: [id])
   userId     Int
+  url        String
 }
 
 model Folder {
