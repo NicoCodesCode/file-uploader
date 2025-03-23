@@ -1,7 +1,5 @@
-const {
-  getAllRootFolders,
-  getFilesOutsideFolders,
-} = require("../prisma/queries");
+const { getAllRootFolders } = require("../prisma/queries/folderQueries");
+const { getFilesOutsideFolders } = require("../prisma/queries/fileQueries");
 
 const renderHomePage = async (req, res, next) => {
   try {

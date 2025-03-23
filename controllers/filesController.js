@@ -4,7 +4,7 @@ const {
   insertFileInRoot,
   getFileById,
   deleteFileById,
-} = require("../prisma/queries");
+} = require("../prisma/queries/fileQueries");
 const { format } = require("date-fns");
 const supabase = require("../storage/supabase");
 

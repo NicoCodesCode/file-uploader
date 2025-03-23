@@ -1,5 +1,5 @@
 const { body } = require("express-validator");
-const { getUserByUsername } = require("../prisma/queries");
+const { getUserByUsername } = require("../prisma/queries/userQueries");
 
 const emptyErr = "Please enter your";
 const lengthErr = "must be between 1 and 20 characters";

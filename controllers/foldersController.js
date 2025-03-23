@@ -7,10 +7,12 @@ const {
   getAllSubfolders,
   updateFolder,
   deleteFolderById,
+  deleteAllSubfolders,
+} = require("../prisma/queries/folderQueries");
+const {
   getFilesInsideFolder,
   deleteAllFilesInFolder,
-  deleteAllSubfolders,
-} = require("../prisma/queries");
+} = require("../prisma/queries/fileQueries");
 
 const renderCreateFolderPage = (req, res) => {
   res.render("folderConfigForm", {

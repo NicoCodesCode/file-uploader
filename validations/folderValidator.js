@@ -1,5 +1,5 @@
 const { body } = require("express-validator");
-const { getFolderByName } = require("../prisma/queries");
+const { getFolderByName } = require("../prisma/queries/folderQueries");
 
 const emptyErr = "Please enter a";
 const alphanumericErr = "can't contain special symbols";

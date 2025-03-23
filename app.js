@@ -11,7 +11,7 @@ const express = require("express");
 const passport = require("passport");
 const session = require("express-session");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
-const { prisma } = require("./prisma/queries");
+const prisma = require("./prisma/prisma");
 const path = require("path");
 const methodOverride = require("method-override");
 

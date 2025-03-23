@@ -1,7 +1,7 @@
 const validateUser = require("../validations/userValidator");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
-const { insertUser } = require("../prisma/queries");
+const { insertUser } = require("../prisma/queries/userQueries");
 
 const renderSignUpPage = (req, res) => {
   res.render("signUpForm", {
