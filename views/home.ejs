@@ -18,8 +18,8 @@
         <a href="/files/upload" class="nav-link">Upload File</a>
       </div>
       <div class="folders-files-container">
+        <% if (locals.folders) { folders.map((folder) => { %>
         <ul class="folders-conatiner">
-          <% if (locals.folders) { folders.map((folder) => { %>
           <li class="folder-item">
             <div class="folder-desc">
               <div class="icon-container">
@@ -39,10 +39,9 @@
               </a>
             </div>
           </li>
-          <% }) } %>
         </ul>
+        <% }) } %> <% if (locals.files) { files.map((file) => { %>
         <ul class="files-container">
-          <% if (locals.files) { files.map((file) => { %>
           <li class="file-item">
             <p class="file-name"><%= file.name %></p>
             <div class="file-options">
@@ -54,8 +53,8 @@
               </a>
             </div>
           </li>
-          <% }) } %>
         </ul>
+        <% }) } %>
       </div>
       <% } %>
     </main>
