@@ -34,6 +34,7 @@ model File {
   User       User     @relation(fields: [userId], references: [id])
   userId     Int
   url        String
+  mimeType   String
 }
 
 model Folder {

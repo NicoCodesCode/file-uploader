@@ -4,10 +4,15 @@
   <body>
     <%- include("partials/header") %>
     <h2><%= title %></h2>
-    <div class="file-details">
-      <h3><%= file.name.split("_")[1] %></h3>
-      <p><%= file.size %> bytes</p>
-      <p>Uploaded at <%= format(file.uploadedAt, "yyyy-MM-dd") %></p>
+    <div class="file-details-container">
+      <h3 class="file-name"><%= file.name.split("_")[1] %></h3>
+      <p class="file-details"><%= file.size %> bytes</p>
+      <p class="file-details">
+        Uploaded at <%= format(file.uploadedAt, "yyyy-MM-dd") %>
+      </p>
     </div>
+    <a href="/files/<%= file.id %>/download">
+      <button class="success-button">Download</button>
+    </a>
   </body>
 </html>

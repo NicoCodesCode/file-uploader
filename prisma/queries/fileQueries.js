@@ -1,6 +1,6 @@
 const prisma = require("../prisma");
 
-async function insertFileInRoot(fileName, fileSize, userId, fileUrl) {
+async function insertFileInRoot(fileName, fileSize, userId, fileUrl, mimeType) {
   await prisma.file.create({
     data: {
       name: fileName,
@@ -9,6 +9,7 @@ async function insertFileInRoot(fileName, fileSize, userId, fileUrl) {
         connect: { id: userId },
       },
       url: fileUrl,
+      mimeType: mimeType,
     },
   });
 }
@@ -18,7 +19,8 @@ async function insertFileInFolder(
   fileSize,
   folderId,
   userId,
-  fileUrl
+  fileUrl,
+  mimeType
 ) {
   await prisma.file.create({
     data: {
@@ -31,6 +33,7 @@ async function insertFileInFolder(
         connect: { id: userId },
       },
       url: fileUrl,
+      mimeType: mimeType,
     },
   });
 }

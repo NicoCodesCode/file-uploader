@@ -30,13 +30,14 @@ const uploadFile = [
       const fileBuffer = req.file.buffer;
       const uniqueName = `${Date.now()}_${req.file.originalname}`;
       const filePath = `uploads/${uniqueName}`;
+      const mimeType = req.file.mimetype;
 
       const { data, error } = await supabase.storage
         .from("file-uploader-bucket")
         .upload(filePath, fileBuffer, {
           cacheControl: "3600",
           upsert: false,
-          contentType: req.file.mimetype,
+          contentType: mimeType,
         });
 
       if (error) {
@@ -54,7 +55,8 @@ const uploadFile = [
           req.file.size,
           req.params.folderId ? Number(req.params.folderId) : undefined,
           res.locals.currentUser.id,
-          publicUrl
+          publicUrl,
+          mimeType
         );
 
         return res.redirect(`/folders/${req.params.folderId}`);
@@ -64,7 +66,8 @@ const uploadFile = [
         uniqueName,
         req.file.size,
         res.locals.currentUser.id,
-        publicUrl
+        publicUrl,
+        mimeType
       );
 
       res.redirect("/");
@@ -79,6 +82,32 @@ const viewDetails = async (req, res, next) => {
   try {
     const file = await getFileById(Number(req.params.fileId));
     res.render("fileDetails", { title: "File Details", file, format });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const downloadFile = async (req, res, next) => {
+  const file = await getFileById(Number(req.params.fileId));
+  const filePath = `uploads/${file.name}`;
+
+  try {
+    const { data, error } = await supabase.storage
+      .from("file-uploader-bucket")
+      .download(filePath);
+
+    if (error) {
+      console.error(error);
+      throw new Error("Could not download the file");
+    }
+
+    res.setHeader("Content-Disposition", `attachment; filename="${file.name}"`);
+    res.setHeader("Content-Type", file.mimeType);
+
+    const arrayBuffer = await data.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    res.send(buffer);
   } catch (error) {
     next(error);
   }
@@ -118,6 +147,7 @@ module.exports = {
   renderUploadFilePage,
   uploadFile,
   viewDetails,
+  downloadFile,
   renderDeleteFilePage,
   deleteFile,
 };

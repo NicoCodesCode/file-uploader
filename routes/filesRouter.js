@@ -8,6 +8,8 @@ router
   .get(filesController.renderUploadFilePage)
   .post(filesController.uploadFile);
 
+router.get("/:fileId/download", filesController.downloadFile);
+
 router
   .route("/:fileId/delete")
   .get(filesController.renderDeleteFilePage)
