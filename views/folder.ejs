@@ -3,41 +3,68 @@
   <%- include("partials/head") %>
   <body>
     <%- include("partials/header") %>
-    <h2><%= title %></h2>
-    <div class="options-container">
-      <a href="/folders/<%= folderId %>/create" class="nav-link">
-        Create Folder
-      </a>
-      <a href="/folders/<%= folderId %>/upload" class="nav-link">
-        Upload File
-      </a>
-    </div>
-    <% if (locals.subfolders.length === 0 && locals.files.length === 0) { %>
-    <p>This folder is empty</p>
-    <% } %>
-    <ul class="subfolder-conatiner">
-      <% if (locals.subfolders) { subfolders.map((subfolder) => { %>
-      <li>
-        <a href="/folders/<%= subfolder.id %>"><%= subfolder.name %></a>
-        <a href="/folders/<%= subfolder.id %>/edit">
-          <button>Edit</button>
+    <main>
+      <h2 class="title"><%= title %></h2>
+      <div class="options-container">
+        <a href="/folders/<%= folderId %>/create" class="nav-link">
+          Create Folder
         </a>
-        <a href="/folders/<%= subfolder.id %>/delete">
-          <button>Delete</button>
+        <a href="/folders/<%= folderId %>/upload" class="nav-link">
+          Upload File
         </a>
-      </li>
-      <% })} %>
-    </ul>
-    <ul class="files-container">
-      <% if (locals.files.length > 0) { files.map((file) => { %>
-      <li>
-        <a href="/files/<%= file.id %>"><%= file.name %></a>
-        <a href="/files/<%= file.id %>/delete"><button>Delete</button></a>
-      </li>
-      <% }) } %>
-    </ul>
-    <a href="<%= previousFolderId ? `/folders/${previousFolderId}` : '/' %>">
-      <button class="secondary-button">Go Back</button>
-    </a>
+      </div>
+      <% if (locals.subfolders.length === 0 && locals.files.length === 0) { %>
+      <div class="empty-container">
+        <p>This folder is empty</p>
+      </div>
+      <% } %>
+      <div class="folders-files-container">
+        <ul class="folders-conatiner">
+          <% if (locals.subfolders) { subfolders.map((subfolder) => { %>
+          <li class="folder-item">
+            <div class="folder-desc">
+              <div class="icon-container">
+                <i class="fa-solid fa-folder"></i>
+              </div>
+              <p class="folder-name"><%= subfolder.name %></p>
+            </div>
+            <div class="folder-options">
+              <a href="/folders/<%= subfolder.id %>">
+                <button class="primary-button button">Open</button>
+              </a>
+              <a href="/folders/<%= subfolder.id %>/edit">
+                <button class="accent-button button">Edit</button>
+              </a>
+              <a href="/folders/<%= subfolder.id %>/delete">
+                <button class="secondary-button button">Delete</button>
+              </a>
+            </div>
+          </li>
+          <% })} %>
+        </ul>
+        <ul class="files-container">
+          <% if (locals.files.length > 0) { files.map((file) => { %>
+          <li class="file-item">
+            <p class="file-name"><%= file.name %></p>
+            <div class="file-options">
+              <a href="/files/<%= file.id %>">
+                <button class="primary-button button">Open</button>
+              </a>
+              <a href="/files/<%= file.id %>/delete">
+                <button class="secondary-button button">Delete</button>
+              </a>
+            </div>
+          </li>
+          <% }) } %>
+        </ul>
+      </div>
+      <div class="go-back-folder-button-container">
+        <a
+          href="<%= previousFolderId ? `/folders/${previousFolderId}` : '/' %>"
+        >
+          <button class="secondary-button button">Go Back</button>
+        </a>
+      </div>
+    </main>
   </body>
 </html>

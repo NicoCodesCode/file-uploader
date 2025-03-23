@@ -3,35 +3,61 @@
   <%- include("partials/head") %>
   <body>
     <%- include("partials/header") %>
-    <h2>Welcome!<%= currentUser ? ", " + currentUser.firstName : "" %></h2>
-    <% if (!currentUser) { %>
-    <p>
-      Please log in to continue or sign up if you don't have an account yet :D
-    </p>
-    <% } else { %>
-    <div class="options-container">
-      <a href="/folders/create" class="nav-link">Create Folder</a>
-      <a href="/files/upload" class="nav-link">Upload File</a>
-    </div>
-    <% if (locals.folders.length === 0 && locals.files.length === 0) { %>
-    <p>There are no files</p>
-    <% } %>
-    <ul class="folders-conatiner">
-      <% if (locals.folders) { folders.map((folder) => { %>
-      <li>
-        <a href="/folders/<%= folder.id %>"><%= folder.name %></a>
-        <a href="/folders/<%= folder.id %>/edit"><button>Edit</button></a>
-        <a href="/folders/<%= folder.id %>/delete"><button>Delete</button></a>
-      </li>
-    </ul>
-    <ul class="files-container">
-      <% }) } %> <% if (locals.files) { files.map((file) => { %>
-      <li>
-        <a href="/files/<%= file.id %>"><%= file.name %></a>
-        <a href="/files/<%= file.id %>/delete"><button>Delete</button></a>
-      </li>
-      <% }) } %>
-    </ul>
-    <% } %>
+    <main>
+      <h2 class="welcome-text">
+        Welcome!<%= currentUser ? ", " + currentUser.firstName : "" %>
+      </h2>
+      <% if (!currentUser) { %>
+      <p class="new-user-text">
+        Before continuing, please log in or sign up if you don't have an account
+        yet :D
+      </p>
+      <% } else { %>
+      <div class="options-container">
+        <a href="/folders/create" class="nav-link">Create Folder</a>
+        <a href="/files/upload" class="nav-link">Upload File</a>
+      </div>
+      <div class="folders-files-container">
+        <ul class="folders-conatiner">
+          <% if (locals.folders) { folders.map((folder) => { %>
+          <li class="folder-item">
+            <div class="folder-desc">
+              <div class="icon-container">
+                <i class="fa-solid fa-folder"></i>
+              </div>
+              <p class="folder-name"><%= folder.name %></p>
+            </div>
+            <div class="folder-options">
+              <a href="/folders/<%= folder.id %>">
+                <button class="primary-button button">Open</button>
+              </a>
+              <a href="/folders/<%= folder.id %>/edit">
+                <button class="accent-button button">Edit</button>
+              </a>
+              <a href="/folders/<%= folder.id %>/delete">
+                <button class="secondary-button button">Delete</button>
+              </a>
+            </div>
+          </li>
+          <% }) } %>
+        </ul>
+        <ul class="files-container">
+          <% if (locals.files) { files.map((file) => { %>
+          <li class="file-item">
+            <p class="file-name"><%= file.name %></p>
+            <div class="file-options">
+              <a href="/files/<%= file.id %>">
+                <button class="primary-button button">Open</button>
+              </a>
+              <a href="/files/<%= file.id %>/delete">
+                <button class="secondary-button button">Delete</button>
+              </a>
+            </div>
+          </li>
+          <% }) } %>
+        </ul>
+      </div>
+      <% } %>
+    </main>
   </body>
 </html>

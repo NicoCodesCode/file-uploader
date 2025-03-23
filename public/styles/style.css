@@ -1,0 +1,258 @@
+:root {
+  --primary-color: #a4243b;
+  --secondary-color: #cd632f;
+  --bright-text-color: #e8f1c8;
+  --dark-text-color: #162d36;
+  --background-color: #f9eabc;
+  --accent-color: #d8973c;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--background-color);
+}
+
+header {
+  background-color: var(--primary-color);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 0.4rem;
+  box-shadow: 0 5px 10px hsla(0, 0%, 20%, 0.5);
+}
+
+.nav-link,
+h1 a {
+  color: var(--bright-text-color);
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+.nav-link:active {
+  opacity: 90%;
+}
+
+.nav-list {
+  display: flex;
+  justify-content: space-evenly;
+  font-weight: 600;
+}
+
+li {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+main {
+  min-height: calc(100% - 106.4px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 2rem;
+  text-align: center;
+  color: var(--dark-text-color);
+}
+
+.welcome-text,
+.form-title {
+  font-size: 2rem;
+}
+
+.title {
+  width: 100%;
+  max-width: 450px;
+  background-color: var(--primary-color);
+  color: var(--bright-text-color);
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  padding: 0.5rem;
+  box-shadow: 0 0 10px 6px rgba(0, 0, 0, 0.2);
+}
+
+form {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 8px;
+  padding: 1.5rem;
+  color: var(--dark-text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 0 10px 6px rgba(0, 0, 0, 0.2);
+}
+
+.form-group {
+  width: 100%;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.form-label {
+  font-size: 1rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.form-input {
+  padding: 0.4rem 0.8rem;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.form-input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  outline: none;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.primary-button {
+  background-color: var(--primary-color);
+  color: var(--bright-text-color);
+}
+
+.secondary-button {
+  background-color: var(--secondary-color);
+  color: var(--bright-text-color);
+}
+
+.accent-button {
+  background-color: var(--accent-color);
+  color: var(--bright-text-color);
+}
+
+.errors-container {
+  text-align: left;
+  color: red;
+}
+
+.form-error-text {
+  list-style-type: disc;
+}
+
+.delete-label {
+  text-align: center;
+}
+
+.options-container {
+  margin-bottom: 2rem;
+  display: flex;
+  width: 100%;
+  max-width: 300px;
+  justify-content: space-evenly;
+}
+
+.options-container a {
+  color: var(--primary-color);
+  font-size: 1.1rem;
+}
+
+.options-container a:active {
+  opacity: 80%;
+}
+
+.file-input-label {
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.form-input[type="file"] {
+  border: none;
+  cursor: pointer;
+  text-align: center;
+}
+
+.form-input[type="file"]:focus {
+  border-color: transparent;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.files-container,
+.folders-container,
+.folders-files-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.file-item,
+.folder-item,
+.details-container {
+  width: 280px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  box-shadow: 0 0 10px 6px rgba(0, 0, 0, 0.2);
+  padding: 1.5rem;
+}
+
+.file-name,
+.folder-name {
+  font-weight: 600;
+}
+
+.icon-container {
+  color: var(--primary-color);
+  font-size: 3.5rem;
+}
+
+.empty-container {
+  margin-bottom: 1.5rem;
+}
+
+.go-back-folder-button-container {
+  margin-top: 1.5rem;
+}

@@ -3,14 +3,14 @@
   <nav>
     <ul class="nav-list">
       <% if (!currentUser) { %>
-      <li class="nav-element">
+      <li>
         <a href="/sign-up" class="nav-link">Sign Up</a>
       </li>
-      <li class="nav-element">
+      <li>
         <a href="/log-in" class="nav-link">Log In</a>
       </li>
       <% } else { %>
-      <li class="nav-element">
+      <li>
         <a href="/log-out" class="nav-link">Log Out</a>
       </li>
       <% } %>

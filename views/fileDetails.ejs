@@ -3,16 +3,25 @@
   <%- include("partials/head") %>
   <body>
     <%- include("partials/header") %>
-    <h2><%= title %></h2>
-    <div class="file-details-container">
-      <h3 class="file-name"><%= file.name.split("_")[1] %></h3>
-      <p class="file-details"><%= file.size %> bytes</p>
-      <p class="file-details">
-        Uploaded at <%= format(file.uploadedAt, "yyyy-MM-dd") %>
-      </p>
-    </div>
-    <a href="/files/<%= file.id %>/download">
-      <button class="success-button">Download</button>
-    </a>
+    <main>
+      <h2 class="title"><%= title %></h2>
+      <div class="details-container">
+        <div class="file-details-container">
+          <h3 class="file-name"><%= file.name.split("_")[1] %></h3>
+          <p class="file-details"><%= file.size %> bytes</p>
+          <p class="file-details">
+            Uploaded at <%= format(file.uploadedAt, "yyyy-MM-dd") %>
+          </p>
+        </div>
+        <div class="button-group">
+          <a href="/files/<%= file.id %>/download">
+            <button class="accent-button button">Download</button>
+          </a>
+          <a href="/">
+            <button class="secondary-button button">Go Back</button>
+          </a>
+        </div>
+      </div>
+    </main>
   </body>
 </html>

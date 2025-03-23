@@ -3,35 +3,41 @@
   <%- include("partials/head") %>
   <body>
     <%- include("partials/header") %>
-    <h2><%= title %></h2>
-    <form method="POST">
-      <div class="form-group">
-        <label for="username" class="form-label">Username:</label>
-        <input
-          type="text"
-          class="form-input"
-          name="username"
-          id="username"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="password" class="form-label">Password:</label>
-        <input
-          type="password"
-          class="form-input"
-          name="password"
-          id="password"
-          required
-        />
-      </div>
-      <%- include("partials/formErrors") %>
-      <div class="button-group">
-        <button type="submit" class="primary-button">Log In</button>
-        <a href="/">
-          <button class="secondary-button" type="button">Go Back</button>
-        </a>
-      </div>
-    </form>
+    <main>
+      <h2 class="title"><%= title %></h2>
+      <form method="POST">
+        <div class="form-group">
+          <label for="username" class="form-label">Username:</label>
+          <input
+            type="text"
+            class="form-input"
+            name="username"
+            id="username"
+            placeholder="CoolUsername69"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password" class="form-label">Password:</label>
+          <input
+            type="password"
+            class="form-input"
+            name="password"
+            id="password"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+        <%- include("partials/formErrors") %>
+        <div class="button-group">
+          <button type="submit" class="primary-button button">Log In</button>
+          <a href="/">
+            <button class="secondary-button button" type="button">
+              Go Back
+            </button>
+          </a>
+        </div>
+      </form>
+    </main>
   </body>
 </html>

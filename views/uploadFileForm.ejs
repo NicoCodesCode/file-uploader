@@ -3,24 +3,26 @@
   <%- include("partials/head") %>
   <body>
     <%- include("partials/header") %>
-    <h2><%= title %></h2>
-    <form
-      action="<%= actionPath %>"
-      method="POST"
-      enctype="multipart/form-data"
-    >
-      <div class="form-group">
-        <label for="file" class="form-label">
-          Select a file from your device (max: 50Mb):
-        </label>
-        <input type="file" class="form-input" name="file" id="file" />
-      </div>
-      <div class="button-group">
-        <button class="primary-button" type="sumbit">Upload</button>
-        <a href="/">
-          <button class="secondary-button" type="button">Don't</button>
-        </a>
-      </div>
-    </form>
+    <main>
+      <h2 class="title"><%= title %></h2>
+      <form
+        action="<%= actionPath %>"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <div class="form-group">
+          <label for="file" class="file-input-label">
+            Select a file from your device (max: 50Mb):
+          </label>
+          <input type="file" class="form-input" name="file" id="file" />
+        </div>
+        <div class="button-group">
+          <button class="primary-button button" type="sumbit">Upload</button>
+          <a href="/">
+            <button class="secondary-button button" type="button">Don't</button>
+          </a>
+        </div>
+      </form>
+    </main>
   </body>
 </html>
