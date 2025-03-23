@@ -5,7 +5,7 @@ A secure file storage application built with Express.js and PostgreSQL. This app
 ## Features
 
 - **User Authentication**: Signup and login system
-- **File Management**: Upload, download and delete files
+- **File Management**: Upload, download and delete files (up to 50Mb)
 - **Folders**: Create, navigate, and manage folders for better organization
 - **User Dashboard**: View all your uploaded files and folders
 
