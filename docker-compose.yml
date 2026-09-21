@@ -9,5 +9,15 @@ services:
       - 5432:5432
     volumes:
       - pgdata:/var/lib/postgresql/data
+  app:
+    build: .
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
 volumes:
   pgdata:
