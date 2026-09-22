@@ -6,6 +6,7 @@ const garageClient = new Minio.Client({
   useSSL: false,
   accessKey: process.env.GARAGE_DEFAULT_ACCESS_KEY,
   secretKey: process.env.GARAGE_DEFAULT_SECRET_KEY,
+  region: "garage"
 });
 
 module.exports = garageClient;
