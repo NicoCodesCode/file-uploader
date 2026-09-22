@@ -19,5 +19,22 @@ services:
       - .env
     environment:
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+  garage:
+    image: dxflrs/garage:v2.3.0
+    volumes:
+      - ./garage.toml:/etc/garage.toml
+      - garagedata:/var/lib/garage
+    ports:
+      - 3900:3900
+      - 3901:3901
+      - 3902:3902
+      - 3903:3903
+    environment:
+      - GARAGE_DEFAULT_ACCESS_KEY=${GARAGE_DEFAULT_ACCESS_KEY}
+      - GARAGE_DEFAULT_SECRET_KEY=${GARAGE_DEFAULT_SECRET_KEY}
+      - GARAGE_DEFAULT_BUCKET=${GARAGE_DEFAULT_BUCKET}
+      - GARAGE_RPC_SECRET=${GARAGE_RPC_SECRET}
+    command: ["/garage", "server", "--single-node", "--default-bucket"]
 volumes:
   pgdata:
+  garagedata:
