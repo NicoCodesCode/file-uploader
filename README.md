@@ -1,39 +1,64 @@
 # File Uploader
 
-A secure file storage application built with Express.js and PostgreSQL. This application allows users to upload and manage their files in a secure environment with folder support, similar to Google Drive (kind of).
+A file storage app with folders and authentication, built with Express and PostgreSQL, using a self-hosted, S3-compatible object store for file data.
 
-## Features
+## Quick Start
 
-- **User Authentication**: Signup and login system
-- **File Management**: Upload, download and delete files (up to 50Mb)
-- **Folders**: Create, navigate, and manage folders for better organization
-- **User Dashboard**: View all your uploaded files and folders
+Requires Docker and Docker Compose. No local Node, Postgres, or storage server installation needed as everything runs in containers.
+
+```bash
+git clone <repo-url>
+cd file-uploader
+cp .env.example .env
+```
+
+Open `.env` and fill in real values for each variable (any local values work, these aren't shared with anything external).
+
+```bash
+docker compose up --build
+```
+
+Once all three containers are running, apply the database schema (only needed once, or after a fresh volume):
+
+```bash
+npx prisma migrate dev
+```
+
+The app is now available at `http://localhost:3000`. Sign up for a new account to try it. Uploads, downloads, folders, and deletes are all fully functional against the local Garage container.
 
 ## Tech Stack
 
-- **Server**: Node.js with Express
-- **Database**: PostgreSQL and Prisma ORM
-- **Authentication**: Passport.js with Local Strategy
-- **File Storage**: Supabase Storage
+- **Runtime**: Node.js, Express
+- **Database**: PostgreSQL, via Prisma ORM
+- **Object storage**: [Garage](https://garagehq.deuxfleurs.fr/), a self-hosted, S3-API-compatible storage server
+- **Auth**: Passport (local strategy) + bcrypt, with sessions persisted in Postgres via `prisma-session-store`
+- **Views**: EJS
+- **Testing**: Jest + Supertest
+- **Containerization**: Docker, Docker Compose
 
-## Contributing
+## Key Features
 
-We welcome contributions to improve the File Uploader App! Here's how you can contribute:
-Getting Started
+- Full auth flow
+- Route-level auth protection
+- Nested folder structure
+- File upload, download, and delete backed by real S3-API object storage, not local disk
+- Fully containerized local environment
+- Automated tests
 
-1. Fork the repository on GitHub
-2. Clone your fork locally:  
-   `git clone https://github.com/yourusername/file-uploader-app.git`
-3. Create a new branch for your feature or bug fix:  
-   `git checkout -b feature/your-feature-name`
+## Architecture
 
-## License
+The Express app is the only thing the browser talks to. It stores structured data like users, sessions and folder/file metadata in Postgres via Prisma, and stores actual file bytes in Garage over the S3 API, using the `minio` npm package as an S3-compatible client. All three services run as separate containers on one Docker Compose network, addressing each other by service name (`db`, `garage`) rather than `localhost`.
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+## Testing
 
-## Special Thanks
+```bash
+npm test
+```
 
-- Me,
-- myself,
-- I,
-- and my mom
+Tests run against a separate `file_uploader_test` database, created automatically the first time the Postgres container initializes (see `docker/init-test-db.sh`), so they never touch the main development database. Test env vars are swapped in before any test file loads (`jest.setup.js`), and the Prisma connection is explicitly closed after the full run (`jest.teardown.js`).
+
+Tests run with `--forceExit`. This is intentional, not a workaround for a bug: `prisma-session-store` keeps a recurring background timer alive for its own session-cleanup logic, which is outside the app's control and has no effect on test correctness — it just keeps the process from exiting on its own once tests finish.
+
+## Environment Variables
+
+See `.env.example` for the full list of variables the app expects, with placeholder values and guidance for each.
