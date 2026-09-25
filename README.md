@@ -9,19 +9,12 @@ Requires Docker and Docker Compose. No local Node, Postgres, or storage server i
 ```bash
 git clone https://github.com/NicoCodesCode/file-uploader.git
 cd file-uploader
-cp .env.example .env
 ```
 
-Open `.env` and fill in real values for each variable (any local values work, these aren't shared with anything external).
+Copy `.env.example` into an actual `.env` file, open it and fill in real values for each variable (any local values work, these aren't shared with anything external).
 
 ```bash
 docker compose up --build
-```
-
-Once all three containers are running, apply the database schema (only needed once, or after a fresh volume):
-
-```bash
-npx prisma migrate dev
 ```
 
 The app is now available at `http://localhost:3000`. Sign up for a new account to try it. Uploads, downloads, folders, and deletes are all fully functional against the local Garage container.
