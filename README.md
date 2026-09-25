@@ -7,7 +7,7 @@ A file storage app with folders and authentication, built with Express and Postg
 Requires Docker and Docker Compose. No local Node, Postgres, or storage server installation needed as everything runs in containers.
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/NicoCodesCode/file-uploader.git
 cd file-uploader
 cp .env.example .env
 ```
