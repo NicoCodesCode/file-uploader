@@ -10,17 +10,16 @@ passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
       const user = await getUserByUsername(username);
+      const match = await bcrypt.compare(password, user.password);
 
-      if (!user) return done(null, false, { message: "Incorrect uesrname" });
-
-      const match = bcrypt.compare(password, user.password);
-      if (!match) return done(null, false, { message: "Incorrect password" });
+      if (!user || !match)
+        return done(null, false, { message: "Incorrect credentials" });
 
       return done(null, user);
     } catch (error) {
       return done(error);
     }
-  })
+  }),
 );
 
 passport.serializeUser((user, done) => done(null, user.id));
