@@ -1,7 +1,10 @@
 const { Router } = require("express");
 const filesController = require("../controllers/filesController");
+const ensureAuthenticated = require("../auth/ensureAuthenticated");
 
 const router = Router();
+
+router.use(ensureAuthenticated);
 
 router
   .route("/upload")
